@@ -1,5 +1,7 @@
 <?php
 session_start();
+if(isset($_POST['submit']))
+{
 include("connection.php");
 include("function.php");
 
@@ -27,7 +29,8 @@ $user_id = random_num(8);
     {
         echo "Please enter valid information.";
     }
-    
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,7 +43,7 @@ $user_id = random_num(8);
 <body>
     <h1>Signup</h1>
     <div class="box">
-        <form action="" method="POST">
+        <form action="" method="post">
             <label for="user_name">Username</label><br>
             <input type="text" name="user_name">
 <br><br>

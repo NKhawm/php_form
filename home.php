@@ -20,6 +20,6 @@ $user_data = check_login($con);
     <h1>Welcome to NuNu' Kitchen and Lifestyle</h1>
 
     <br>
-    Hello, Username!
+    Hello, <?php echo $user_data['user_name']; ?>
 </body>
 </html>

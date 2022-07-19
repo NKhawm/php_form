@@ -1,70 +1,10 @@
 <?php
 session_start();
+$_SESSION;
 
 include("connection.php");
-include("function.php");
-$error="";
+ include("function.php");?>
 
- if($_SERVER['REQUEST_METHOD'] == "POST")
- //if(isset($_POST['submit']))
-{ print_r($_POST);
-
-
-
-
-    //somthing was posted
-
-    $username = $_POST['user_name'];  //trim
-    // if(!preg_match("/^[a-zA-Z ]+$/" ,$username))
-    // {
-    //     $error= "Please enter a valid username.";
-    // }
-    //  $username=esc($username);
-
-    $email = $_POST['email'];
-    if(!preg_match("/^[\w\-]+@[\w\]+.[\w\]+$/" ,$email))
-    {
-        $error = "Please enter a valid email.";
-    }
-    else{
-        echo "thank you for signing up.";
-    }
-    $phone_no= $_POST['phone_number'];
-    $age= $_POST['age'];
-    $password = $_POST['user_password'];
-    $confirmpwd = $_POST['confirm_password'];
-    // if($error == "")
-
-    $query = "INSERT INTO users (user_name,email_address,phone_no,age,password) 
-    VALUES ('$username','$email','$phone_no','$age','$password')";
-    echo $query;
-    mysqli_query($con,$query);
-
-    //header("Location:login.php");
-    //die;
-
-}
-
-//     if(!empty($username) && !empty($email) && !empty($phone_no) && !empty($age) && !empty($password) && !empty($confirmpwd) && !is_numeric($username))
-//     {
-// //save to database
-// $user_id = random_num(8);
-//        $query = "INSERT INTO users (user_id,user_name,email_address,phone_no,age,password)
-//                  VALUES ('$user_id','$username','$email','$phone_no','$age','$password')";
-                 
-//                  msqli_query($con,$query);
-
-//                 header("Location=login.php");
-//                  die;
-        
-//     }
-//     else
-//     {
-//         echo "Please enter valid information.";
-//     }
-
-// } 
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -72,42 +12,119 @@ $error="";
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signup</title>
+   
 </head>
 <body>
+<style>
+       .error {color:red;} 
+        </style>
+<?php
+$nameErr = $emailErr = $phoneErr = $ageErr = $passwordErr = $confirmErr = "";
+
+if ($_SERVER['REQUEST_METHOD'] == "POST")
+
+
+{ 
+    print_r($_POST);
+   $username = $_POST['user_name']; 
+   if(empty($username))
+   {
+    $nameErr = "A valid user name is required.";  
+   }
+
+   $email = $_POST['email'];
+   if(!preg_match("/^[\w\-]+@[\w\]+.[\w\]+$/" ,$email) && empty($email))
+   {
+       $emailErr = "A valid email is required.";
+   }
+  
+   $phone_no= $_POST['phone_number'];
+   if( $phone_no < 11 && empty($phone_no))
+   {
+       $phoneErr = "Please enter a valid phone number.";
+   }
+   $age= $_POST['age'];
+   if($age < 13 && empty($age))
+   {
+       $ageErr = "You have to be at least 13 years old to register.";
+   }
+   $password = $_POST['user_password'];
+   if($password >8 && empty($password))
+   {
+       $passwordErr = "Password must contain at least 8 charater.";
+   }
+   if(!preg_match("/[A-Z]/i", $password))
+   {
+    $passwordErr = "Password must contain at least one capital letter.";
+   }
+   if(!preg_match("/[0-9]/",$password))
+   {
+    $passwordErr = "Password must contain at least one number.";
+   }
+  
+  
+   $confirmpwd = $_POST['confirm_password'];
+   if ($password !== $confirmpwd)
+   {
+     $confirmErr = "Password must match.";
+   }
+   
+  else{
+   
+  $user_id = random_num(8);
+   $query = "INSERT INTO users (user_id,user_name,email_address,phone_no,age,password) 
+   VALUES ('$user_id','$username','$email','$phone_no','$age','$password')";
+   echo $query;
+   mysqli_query($con,$query);
+
+
+
+     header("Location:login.php");
+    die;
+}
+
+}
+
+
+
+
+?>
+
     <h1>Signup</h1>
     <div class="box">
         <form action="" method="post">
-            <div> <?php
-            if(isset($error) && $error != "")
-            {
-                echo $error;
-            } 
-            ?> </div>
+            
             <label for="user_name">Username</label><br>
-            <input type="text" name="user_name">
+            <input type="text" name="user_name"><br>
+            <span class="error"><?php echo $nameErr; ?></span>
 <br><br>
 
             <label for="email">Email</label><br>
-            <input type="text" name="email">
+            <input type="text" name="email"><br>
+            <span class="error"><?php echo $emailErr; ?></span>
 <br><br>
 
             
             <label for="phone number">Phone number</label><br>
-            <input type="text" name="phone_number">
+            <input type="text" name="phone_number"><br>
+            <span class="error"><?php echo $phoneErr; ?></span>
 <br><br>
             
             <label for="age">Age</label><br>
-            <input type="number" name="age">
+            <input type="number" name="age"><br>
+            <span class="error"><?php echo $ageErr; ?></span>
 <br><br>
             
             <label for="password">Password</label><br>
-            <input type="password" name="user_password">
+            <input type="password" name="user_password"><br>
+            <span class="error"><?php echo $passwordErr; ?></span>
 <br><br>
 
             <label for="confirm">Confirm Password</label><br>
-            <input type="password" name="confirm_password">
+            <input type="password" name="confirm_password"><br>
+            <span class="error"><?php echo $confirmErr; ?></span>
 <br><br>
-            <input type="submit" value="Signup" name="submit"><br><br>
+            <input type="submit" value="Submit" name="submit"><br><br>
             <p>If you are already registered, <a href="login.php"> Log in </a>here.</p>
 
         </form>

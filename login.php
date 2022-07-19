@@ -2,69 +2,6 @@
 session_start();
 include('connection.php');
 include('function.php');
-$error="";
-
- if($_SERVER['REQUEST_METHOD'] == "POST")
- {
-
-$email = $_POST['email'];
-    if(!preg_match("/^[\w\-]+@[\w\]+.[\w\]+$/" ,$email))
-    {
-        $error = "Please enter a valid email.";
-    }
-    $password = $_POST['user_password'];
-    if($error == "")
-{
-    $query = "SELECT*FROM users (user_name,email_address,phone_no,age,password) 
-    VALUES ('$username','$email','$phone_no','$age','$password')";
-    mysqli_query($con,$query);
-
-    header("Location:home.php");
-    die;
-}
-}
-
-
-// if(isset($_POST['submit']))
-// {
-//     //somthing was posted
-//     $username = $_POST['user_name'];
-//     $email = $_POST['email'];
-//     $phone_no= $_POST['phone_number'];
-//     $age= $_POST['age'];
-//     $password = $_POST['user_password'];
-//     $confirmpwd = $_POST['confirm_password'];
-
-//     if(!empty($username) && !empty($email) && !empty($phone_no) && !empty($age) && !empty($password) && !empty($confirmpwd) && !is_numeric($username))
-//     {
-// //read from database
-
-//        $query = "SELECT * FROM users WHERE user_name = '$username' limit 1";
-//        $result = mysqli_query($con, $query);
-
-//        if($result)
-//        {
-//            if($result && myqli_num_row($result) > 0)
-//            {
-//                $user_data= msqli_fetch_assoc($result);
-
-//                if($user_date['password']=== $password)
-//                {
-//                    $_SESSION['user_id'] = $user_data['user_id'];
-//                    header("Location:home.php");
-//                    die;
-//                }
-//             }
-//        }
-//     }
-//     echo "Wrong username or password.";
-//     else
-
-//     {
-//         echo "Please enter valid information.";
-//     }
-
-// }
 ?>
 <!DOCTYPE html>
 <html lang="en">

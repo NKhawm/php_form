@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
        $ageErr = "You have to be at least 13 years old to register.";
    }
    $password = $_POST['user_password'];
-   if($password >8 && empty($password))
+   if($password < 8 && empty($password))
    {
        $passwordErr = "Password must contain at least 8 charater.";
    }
@@ -79,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
 
 
 
-     header("Location:login.php");
+    header("Location:login.php");
     die;
 }
 

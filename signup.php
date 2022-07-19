@@ -1,6 +1,6 @@
 <?php
 session_start();
-$_SESSION;
+//$_SESSION;
 
 include("connection.php");
  include("function.php");?>
@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST")
      $confirmErr = "Password must match.";
    }
    
-  else{
+  if(!$nameErr && !$emailErr && !$phoneErr && !$ageErr && !$passwordErr && !$confirmErr)  {
    
   $user_id = random_num(8);
    $query = "INSERT INTO users (user_id,user_name,email_address,phone_no,age,password) 
